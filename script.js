@@ -1,6 +1,17 @@
-let money, time;
+let money, time, optionalExpense, appData;
 
-function startProgram () {
+function fillAppData () {
+    appData = {
+        budget: money,
+        timeData: time,
+        expenses: {},
+        optionalExpenses: {},
+        income: [],
+        savings: true
+    };
+}
+
+function detectLevel () {
     money = +prompt("Ваш бюджет на месяц?", '');
     if (isNaN(money) || money == '' || money == null) {
         alert("Repeat again!");
@@ -9,18 +20,7 @@ function startProgram () {
     time = prompt("Введите дату в формате YYYY-MM-DD", '');
 }
 
-startProgram();
-
-let appData = {
-    budget: money,
-    timeData: time,
-    expenses: {},
-    optionalExpenses: {},
-    income: [],
-    savings: false
-};
-
-function showMessage () {
+function detectDayBudget () {
     for (let i = 0; i < 2; i++) {
         let a = prompt("Введите обязательную статью расходов в этом месяце", ''),
         b = +prompt("Во сколько обойдется?", '');
@@ -32,10 +32,41 @@ function showMessage () {
             return showMessage();
         }
     }
+    appData.moneyPerDay = parseFloat((appData.budget / 30).toFixed(2));
+    alert("Your budget per day: " + appData.moneyPerDay + " grn.");
 }
 
-showMessage();
+function calcIncomePerMonth () {
+    if (appData.savings == true) {
+        let balance = +prompt("Enter your balance", ''),
+        percent = +prompt("Enter your percent", '');
+        appData.monthIncome = ((balance * percent) / 12) / 100;
+        alert("Your income per month is: " + parseFloat(appData.monthIncome.toFixed(2)) + " grn.");
+    }
+}
 
-appData.moneyPerDay = parseFloat((appData.budget / 30).toFixed(2));
+function chooseOptExpenses () {
+    for (let i = 1; i <= 3; i++) {
+        optionalExpense = prompt("Статья необязательных расходов?", '');
+        if (typeof(optionalExpense) != 'string' || typeof(optionalExpense) == null || optionalExpense == "" || optionalExpense.length > 20) {
+            alert("Repeat again");
+            return chooseOptExpenses();
+        }
+        appData.optionalExpenses[i] = optionalExpense;
+    }
+}
 
-alert("Your budget per day: " + appData.moneyPerDay + " grn.");
+detectLevel();
+fillAppData();
+detectDayBudget();
+calcIncomePerMonth();
+chooseOptExpenses();
+
+
+
+
+
+
+
+
+
