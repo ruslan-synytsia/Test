@@ -71,7 +71,7 @@ let appData = {
 // appData.detectDayBudget();
 // appData.calcIncomePerMonth();
 // appData.chooseOptExpenses();
-//appData.chooseIncome();
+// appData.chooseIncome();
 
 
 
