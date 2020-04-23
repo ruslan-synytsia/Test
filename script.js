@@ -1,4 +1,4 @@
-let money, time, optionalExpense, appData;
+let money, time;
 
 function fillAppData () {
     appData = {
