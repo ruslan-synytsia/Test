@@ -1,5 +1,15 @@
-let money = +prompt("Ваш бюджет на месяц?", ''),
+let money, time;
+
+function startProgram () {
+    money = +prompt("Ваш бюджет на месяц?", '');
+    if (isNaN(money) || money == '' || money == null) {
+        alert("Repeat again!");
+        return startProgram();
+    }
     time = prompt("Введите дату в формате YYYY-MM-DD", '');
+}
+
+startProgram();
 
 let appData = {
     budget: money,
@@ -10,9 +20,22 @@ let appData = {
     savings: false
 };
 
-let a = prompt("Введите обязательную статью расходов в этом месяце", ''),
-    b = +prompt("Во сколько обойдется?", '');
+function showMessage () {
+    for (let i = 0; i < 2; i++) {
+        let a = prompt("Введите обязательную статью расходов в этом месяце", ''),
+        b = +prompt("Во сколько обойдется?", '');
+    
+        if (typeof(a) === 'string' && typeof(a) != null && typeof(b) != null && a != "" && b != "" && a.length < 50) {
+            appData.expenses[a] = b;
+        } else {
+            alert("Repeat again!");
+            return showMessage();
+        }
+    }
+}
 
-appData.expenses[a] = b;
+showMessage();
 
-alert(money / 30);
+appData.moneyPerDay = parseFloat((appData.budget / 30).toFixed(2));
+
+alert("Your budget per day: " + appData.moneyPerDay + " grn.");
